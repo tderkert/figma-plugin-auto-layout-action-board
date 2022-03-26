@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<!-- <link rel="stylesheet" href="https://static.figma.com/api/figma-extension-api-0.0.1.css" type="text/css"> -->
+</head>
+<body>
+
+	<div class="container layout-stack gap-large">
+		<h1>Fill Container <span class="soft">Horizontally</span></h1>
+		<div class="layout-row">
+			<button onclick="stretch(0,'HORIZONTAL')" type="button" class="button">Selection</button>
+			<button onclick="stretch(1,'HORIZONTAL')" type="button" class="button">Children</button>
+			<button onclick="stretch(2,'HORIZONTAL')" type="button" class="button">Grand Children</button>
+		</div>
+		<div class="layout-row gap-small">
+			<input type="checkbox" id="exclusivelyVerticallyStackedItems"/>
+			<label for="exclusivelyVerticallyStackedItems">Only target vertically stacked items</label>
+		</div>
+	</div>
+
+	<div class="container layout-stack gap-large">
+		<h1>Fill Container <span class="soft">Vertically</span></h1>
+		<div class="layout-row">
+			<button onclick="stretch(0,'VERTICAL')" type="button" class="button">Selection</button>
+			<button onclick="stretch(1,'VERTICAL')" type="button" class="button">Children</button>
+			<button onclick="stretch(2,'VERTICAL')" type="button" class="button">Grand Children</button>
+		</div>
+		<div class="layout-row gap-small">
+		
+			<input type="checkbox" id="exclusivelyHorizontallyStackedItems"/>
+			<label for="exclusivelyHorizontallyStackedItems">Only target horizontally stacked items</label>
+		</div>
+	</div>
+
+
+<style type="text/css">
+	:root{
+		--figma-primary: #18A0FB;
+		--figma-primary-active: #007FD4;
+	}
+	/* Reset */
+	* {
+		box-sizing: border-box;
+	}
+	body,hr, p, h1, h2, h3{
+		padding: 0;
+		margin: 0;
+		font-weight: inherit;
+		font-size: inherit;
+	}
+	body{
+		line-height: 1.5;
+		user-select: none;
+	}
+
+	/* FIGMA */
+
+	body {
+	  font-family: 'Inter', sans-serif;
+	  font-size: 11px;
+	  font-weight: 400;
+	  outline: none;
+	}
+
+	button {
+	  font: inherit;
+	  background-color: transparent;
+	  display: block;
+	  text-align: center;
+	  height: 32px;
+	  line-height: 1em;
+	  padding: 0px 12px;
+	  color: #444;
+	  font-weight: 400;
+	  background-color: transparent;
+	  box-sizing: border-box;
+	  border: 1px solid black;
+	  border-radius: 6px;
+	  outline: none;
+	  box-sizing: border-box;
+	}
+
+	button:active {
+	  border: 2px solid var(--figma-primary);
+	  padding: 0px 11px;
+	}
+
+
+	button.primary {
+	  color: #fff;
+	  background-color: var(--figma-primary);
+	  border: 2px solid var(--figma-primary);
+	  padding: 0px 12px;
+	}
+
+	button.primary:active {
+	  border: 2px solid var(--figma-primary-active) !important;
+	}
+
+	label{
+		transform: translateY(1.5px);
+	}
+
+	/* Checkbox */
+	input[type="text"] {
+	  font-family: 'Roboto', sans-serif;
+	  color: #444;
+	  height: 24px;
+	  padding: 0 2px 0 4px;
+	  box-sizing: border-box;
+	  border: 1px solid #d4d4d4;
+	  border-radius: 3px;
+	}
+
+	input[type="text"]:focus {
+	  border-color: #30c2ff;
+	  box-shadow: inset 0 0 0 1px #30c2ff;
+	  outline: none;
+	}
+
+	input[type="checkbox"] {
+	  width: 14px;
+	  height: 14px;
+	  border: 1px solid #d4d4d4;
+	  border-radius: 3px;
+	  box-sizing: border-box;
+	  background-color: #fff;
+	}
+	input[type="checkbox"]:checked {
+		color: var(--figma-primary);
+	}
+	/* Toggle */
+	input[type="checkbox"].toggle {
+		width: 24px;
+	  height: 12px;
+		-webkit-appearance: none;
+		-webkit-tap-highlight-color: transparent;
+		position: relative;
+		border: 0;
+		outline: 0;
+		cursor: pointer;
+		margin: 0px;
+		margin-bottom: 2px;
+	}
+
+	input[type="checkbox"].toggle:after {
+		content: '';
+		width: 22px;
+		height: 10px;
+		display: inline-block;
+		background: white;
+		border-radius: 12px;
+		clear: both;
+		border: 1px solid black;
+	}
+
+	input[type="checkbox"].toggle:before {
+		content: '';
+		width: 10px;
+		height: 10px;
+		display: block;
+		position: absolute;
+		left: 0;
+		top: 0;
+		border-radius: 50%;
+		background: white;
+		border: 1px solid black;
+	}
+
+	input[type="checkbox"].toggle:checked:before {
+		left: 12px;
+	}
+
+	input[type="checkbox"].toggle:checked:after {
+		background: black;
+	}
+
+
+	/* TYPE */
+	h1 {
+		font-size: 1.15em;
+		font-weight: 500;
+	}
+
+	p, p.default, p > span.default{
+		color: black;
+	}
+	.soft,
+	p.soft, 
+	p > span.soft,
+	label.soft{
+		color: rgba(0, 0, 0, 0.5);
+	}
+
+
+	/* LAYOUT */
+	hr{
+		border: none;
+		border-top: 1px solid rgba(0, 0, 0, 0.1);
+
+	}
+	body{
+		display: flex;
+		flex-direction: column;
+		height:  100%;
+	}
+	.container{
+		padding: 16px;
+		border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+	}
+	.container:last-child{
+
+		border: 0;
+	}
+	.layout-stack {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+	}
+	.layout-row{
+		display: flex;
+		align-content: flex-start;
+		align-items: center;
+		gap:  6px;
+	}
+	.layout-row.gap-small,
+	.layout-stack.gap-small{
+		gap: 4px;
+	}
+	.layout-row.gap-large,
+	.layout-stack.gap-large{
+		gap: 12px;
+	}
+	.layout-row.space-between,
+	.layout-stack.space-between{
+		justify-content: space-between;
+	}
+	.hide{
+		display: none !important;
+	}
+	/* COMPONENTS */
+
+
+	/* ICON 16x16 */
+	span.icon-16{
+		height: 16px;
+		width:  16px;
+		display: block;
+	}
+	span.icon-16--soft{
+		opacity: 0.5;
+	}
+	/* ICONS */
+	span.icon-16--example{
+		background-image: var("ICON_URL");
+	}
+
+</style>
+
+
+
+
+
+<script>
+// "use strict";
+
+var settings = {}
+
+
+function stretch(depth, direction){
+	parent.postMessage({ pluginMessage: { 
+		action: "stretch",
+		depth: depth,
+		direction: direction
+	} }, '*');
+}
+
+// Listen on messages fom code.ts
+onmessage = event => {
+  let message = event.data.pluginMessage;
+  console.log("message received from Code.js: ", message)
+
+  
+  
+}
+
+// function updateSettings(settings){
+// 	parent.postMessage({ pluginMessage: { 
+// 		updateSettings: true,
+// 		settings: settings
+// 	} }, '*');
+// }
+
+
+
+function updateUI(data) {
+	
+
+	
+}
+
+</script>
+</body>
+</html>
+
+

@@ -1,0 +1,8 @@
+{
+  "name": "Auto Layout Action Board",
+  "id": "984731165794261331",
+  "api": "1.0.0",
+  "main": "code.js",
+  "ui": "ui.html",
+  "editorType": ["figma"]
+}
