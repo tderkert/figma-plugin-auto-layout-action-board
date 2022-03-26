@@ -21,12 +21,6 @@ Dev
 
 Todo
 --------------------
-- [ ] Make it possible to select variants individually, as well as the master component(as is default now)
-- [x] Indicate selection in plugin UI
-- [x] Save plugin settings
-- [x] Get feedback when no there are no deprecated components
-- [x] Add option to zoom to selection
-- [x] Smart dividers for containers
-- [x] Show summary text
-- [x] Make component container scrollable
-- [x] Make nicer plugin UI more like Figma UI
+- [ ] Add support for Hug
+- [ ] Create nice UI
+- [ ] Add css tooltips to icon buttons
