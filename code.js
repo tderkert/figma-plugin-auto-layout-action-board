@@ -95,8 +95,6 @@ function setToHug(nodes, hugDirection) {
         }
     }
 }
-setGrowPropertyWithDepth(currentSelection, "HUG", "VERTICAL", 0);
-// setToHug(currentSelection, "HORIZONTAL")
 function setGrowPropertyWithDepth(nodes, grow, direction, depth = 0) {
     console.log("setGrowPropertyWithDepth()", grow, direction, depth);
     // Handle which function should run
@@ -145,9 +143,9 @@ function setGrowPropertyWithDepth(nodes, grow, direction, depth = 0) {
 figma.ui.onmessage = event => {
     let message = event;
     console.log("message received from UI: ", message);
-    if (message.action == "stretch") {
+    if (message.action == "GROW") {
         let selection = figma.currentPage.selection;
-        setGrowPropertyWithDepth(selection, "STRETCH", message.direction, message.depth);
+        setGrowPropertyWithDepth(selection, message.behavior, message.direction, message.depth);
     }
     // function saveSettings(settings){
     //     let storage = figma.clientStorage

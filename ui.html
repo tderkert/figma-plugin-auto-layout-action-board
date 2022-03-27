@@ -9,9 +9,9 @@
 	<div class="container layout-stack gap-large">
 		<h1>Fill Container <span class="soft">Horizontally</span></h1>
 		<div class="layout-row">
-			<button onclick="stretch(0,'HORIZONTAL')" type="button" class="button">Selection</button>
-			<button onclick="stretch(1,'HORIZONTAL')" type="button" class="button">Children</button>
-			<button onclick="stretch(2,'HORIZONTAL')" type="button" class="button">Grand Children</button>
+			<button onclick="grow('STRETCH', 0,'HORIZONTAL')" type="button" class="button">Selection</button>
+			<button onclick="grow('STRETCH', 1,'HORIZONTAL')" type="button" class="button">Children</button>
+			<button onclick="grow('STRETCH', 2,'HORIZONTAL')" type="button" class="button">Grand Children</button>
 		</div>
 		<div class="layout-row gap-small">
 			<input type="checkbox" id="exclusivelyVerticallyStackedItems"/>
@@ -22,9 +22,9 @@
 	<div class="container layout-stack gap-large">
 		<h1>Fill Container <span class="soft">Vertically</span></h1>
 		<div class="layout-row">
-			<button onclick="stretch(0,'VERTICAL')" type="button" class="button">Selection</button>
-			<button onclick="stretch(1,'VERTICAL')" type="button" class="button">Children</button>
-			<button onclick="stretch(2,'VERTICAL')" type="button" class="button">Grand Children</button>
+			<button onclick="grow('STRETCH', 0,'VERTICAL')" type="button" class="button">Selection</button>
+			<button onclick="grow('STRETCH', 1,'VERTICAL')" type="button" class="button">Children</button>
+			<button onclick="grow('STRETCH', 2,'VERTICAL')" type="button" class="button">Grand Children</button>
 		</div>
 		<div class="layout-row gap-small">
 		
@@ -268,9 +268,10 @@
 var settings = {}
 
 
-function stretch(depth, direction){
+function grow(behavior, depth, direction){
 	parent.postMessage({ pluginMessage: { 
-		action: "stretch",
+		action: "GROW",
+		behavior: behavior,
 		depth: depth,
 		direction: direction
 	} }, '*');
