@@ -43,20 +43,23 @@ var settings = settingsDefault
 
 
 
+
+
+
 function setToStretch(nodes:Array, stretchDirection){
     for(let node of nodes){
         let parent = node.parent
-        let grandParent = node.parent.parent
         let parentStackDirection = node.parent.layoutMode
-        let grandParentStackDirection = node.parent.layoutMode
-
 
 
         if(stretchDirection == "HORIZONTAL"){
-            if( parentStackDirection == "HORIZONTAL" ){
-                node.layoutGrow = 1
-            }else if( parentStackDirection == "VERTICAL" ){
-                node.layoutAlign = "STRETCH"
+            switch (parentStackDirection) {
+                case "HORIZONTAL":
+                    node.layoutGrow = 1
+                    break
+                case "VERTICAL":
+                    node.layoutAlign = "STRETCH"
+                    break
             }
 
             if(stretchDirection == node.layoutMode){
@@ -89,20 +92,69 @@ function setToStretch(nodes:Array, stretchDirection){
     }
 }
 
+function setToHug(nodes:Array, hugDirection){
+    console.log("setToHug()", hugDirection)
+    for(let node of nodes){
+        let parent = node.parent
+        let parentStackDirection = node.parent.layoutMode
 
-function setToStretchWithDepth(nodes:Array, depth:number = 0, stretchDirection){
+        if(hugDirection == "HORIZONTAL"){
+            if( parentStackDirection == "HORIZONTAL" ){
+                node.layoutGrow = 0
+                node.primaryAxisSizingMode = "AUTO"
+            }else if( parentStackDirection == "VERTICAL" ){
+                node.layoutAlign = "INHERIT"
+            }
 
+            if(hugDirection == node.layoutMode){
+                node.primaryAxisSizingMode = "AUTO"
+            }else{
+                node.counterAxisSizingMode = "AUTO"
+            }
+            
+        }
+        if(hugDirection == "VERTICAL"){
+            if( parentStackDirection == "VERTICAL" ){
+                node.layoutGrow = 0
+                node.primaryAxisSizingMode = "AUTO"
+            }else if( parentStackDirection == "HORIZONTAL" ){
+                node.layoutAlign = "INHERIT"
+                node.counterAxisSizingMode = "AUTO"
+            }
+        }
+    }
+}
+
+
+setGrowPropertyWithDepth(currentSelection, "HUG", "VERTICAL", 0)
+// setToHug(currentSelection, "HORIZONTAL")
+
+function setGrowPropertyWithDepth(nodes:Array, grow, direction, depth:number = 0){
+    console.log("setGrowPropertyWithDepth()", grow, direction,depth)
+    // Handle which function should run
+    let growMethod = function (nodes,direction) {
+        switch(grow) {
+            case "HUG":
+                console.log("CASE: HUG")
+                setToHug(nodes,direction)
+                break
+            case "STRETCH":
+                console.log("CASE: STRETCH")
+                setToStretch(nodes,direction)
+                break
+        }
+    }
 
     // DEPTH 0
     if(depth == 0){
-        setToStretch(nodes, stretchDirection)
+        growMethod(nodes, direction)
         return
     }
     // DEPTH 1
     if(depth == 1) {
         for(let node of nodes){
             if(node.children != undefined){
-                setToStretch(node.children, stretchDirection)
+                growMethod(node.children, direction)
                 return
             }
         }    
@@ -115,12 +167,13 @@ function setToStretchWithDepth(nodes:Array, depth:number = 0, stretchDirection){
                     let grandChildren = child.children
                     
                     if(grandChildren != undefined){
-                        setToStretch(grandChildren, stretchDirection)
+                        growMethod(grandChildren, direction)
                     }
                 }
-                return
+                
             }
         }    
+        return
     }
 }
 
@@ -132,7 +185,7 @@ figma.ui.onmessage = event => {
 
   if(message.action == "stretch"){
     let selection = figma.currentPage.selection
-    setToStretchWithDepth(selection, message.depth, message.direction)
+    setGrowPropertyWithDepth(selection, "STRETCH", message.direction, message.depth)
   }
 
 // function saveSettings(settings){
