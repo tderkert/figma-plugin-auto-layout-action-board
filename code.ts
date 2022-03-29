@@ -1,7 +1,7 @@
 console.clear()
 
 figma.showUI(__html__);
-figma.ui.resize(320,320)
+figma.ui.resize(320,520)
 
 // Get current Page
 const currentPage = figma.currentPage

@@ -33,6 +33,32 @@
 		</div>
 	</div>
 
+	<div class="container layout-stack gap-large">
+		<h1>Hug <span class="soft">Horizontally</span></h1>
+		<div class="layout-row">
+			<button onclick="grow('HUG', 0,'HORIZONTAL')" type="button" class="button">Selection</button>
+			<button onclick="grow('HUG', 1,'HORIZONTAL')" type="button" class="button">Children</button>
+			<button onclick="grow('HUG', 2,'HORIZONTAL')" type="button" class="button">Grand Children</button>
+		</div>
+		<div class="layout-row gap-small">
+			<input type="checkbox" id="exclusivelyVerticallyStackedItems"/>
+			<label for="exclusivelyVerticallyStackedItems">Only target vertically stacked items</label>
+		</div>
+	</div>
+
+	<div class="container layout-stack gap-large">
+		<h1>Hug <span class="soft">Vertically</span></h1>
+		<div class="layout-row">
+			<button onclick="grow('HUG', 0,'VERTICAL')" type="button" class="button">Selection</button>
+			<button onclick="grow('HUG', 1,'VERTICAL')" type="button" class="button">Children</button>
+			<button onclick="grow('HUG', 2,'VERTICAL')" type="button" class="button">Grand Children</button>
+		</div>
+		<div class="layout-row gap-small">
+		
+			<input type="checkbox" id="exclusivelyHorizontallyStackedItems"/>
+			<label for="exclusivelyHorizontallyStackedItems">Only target horizontally stacked items</label>
+		</div>
+	</div>
 
 <style type="text/css">
 	:root{
